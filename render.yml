@@ -1,0 +1,22 @@
+databases:
+  - name: taisei3_DB
+    databaseName: taisei3_db
+    user: taisei3
+    region: singapore
+
+services:
+  - type: web
+    name: taisei3
+    env: ruby
+    region: singapore
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: taisei3_DB
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+
